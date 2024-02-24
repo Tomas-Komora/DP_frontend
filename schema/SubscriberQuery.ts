@@ -1,6 +1,6 @@
 import { extendType, objectType } from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import  z from 'zod';
 
 const EmailSchema = z.object({
     eInvoiceEmail: z.string(),
@@ -24,7 +24,7 @@ const SettingsSchema = z.object({
     hasMktForMobappDisabled: z.boolean(),
 });
 
-const SubscriberSchema = z.object({
+export const SubscriberSchema = z.object({
     scratchDay: z.string(),
     eligibleForApp: z.boolean(),
     subscriberType: z.enum(["postpaid"]),
@@ -54,7 +54,7 @@ const SubscriberSchema = z.object({
     hasMoreBillingArrangements: z.enum(["Yes", "No"]),
 });
 
-const EntireResponseSchema = z.object({
+export const EntireResponseSchemaSubscriber = z.object({
     subscriber: SubscriberSchema,
 });
 
@@ -137,7 +137,7 @@ export const SubscriberQuery = extendType({
             resolve: async (_parent, _args, _context) => {
                 try {
                     const response = await axios.get('http://localhost:8080/subscriber');
-                    const parsedResponse = EntireResponseSchema.parse(response.data);
+                    const parsedResponse = EntireResponseSchemaSubscriber.parse(response.data);
                     // Adjusted to match the expected shape.
                     return { subscriber: parsedResponse.subscriber };
                 } catch (error) {

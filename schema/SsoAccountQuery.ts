@@ -1,6 +1,6 @@
 import { extendType, objectType } from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import  z  from 'zod';
 
 export const SsoAccount = objectType({
     name: 'SsoAccount',
@@ -10,7 +10,7 @@ export const SsoAccount = objectType({
     },
 })
 
-const EntireResponseSchema = z.object({
+export const ssoAccountSchema = z.object({
     ssoAccount: z.object({
         otp: z.string().optional(),
         otpValidTo: z.string().optional(),
@@ -25,8 +25,7 @@ export const SsoAccountQuery = extendType({
             resolve: async (_parent, _args, _context) => {
                 try {
                     const response = await axios.get('http://localhost:8080/ssoAccount');
-                    console.log(JSON.stringify(response.data));
-                    const parsedResponse = EntireResponseSchema.parse(response.data);
+                    const parsedResponse = ssoAccountSchema.parse(response.data);
                     return parsedResponse.ssoAccount;
                 } catch (error) {
                     console.error("Error fetching or parsing app slots:", error);

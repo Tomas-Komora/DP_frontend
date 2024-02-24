@@ -1,6 +1,6 @@
-import { enumType, extendType, objectType, list, nullable } from 'nexus';
+import { extendType, objectType} from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import  z  from 'zod';
 
 // Zod Schemas
 export const PromotionAnswerSchema = z.object({
@@ -9,7 +9,7 @@ export const PromotionAnswerSchema = z.object({
     displayValue: z.string().nullable().optional(),
 });
 
-const ProductPromotionSchema = z.object({
+export const ProductPromotionSchema = z.object({
     promotionId: z.string().nullable(),
     priority: z.number().nullable().optional(),
     text: z.string().nullable().optional(),
@@ -35,7 +35,7 @@ const ProductPromotionSchema = z.object({
     offerRestrictedPeriod: z.number().nullable().optional(),
     actionDetailLabel: z.string().nullable().optional(),
 });
-const ResponseSchema = z.object({
+export const ResponseSchema = z.object({
     productPromotions: z.object({
         productPromotion: z.array(ProductPromotionSchema),
     }),
@@ -92,7 +92,6 @@ export const ProductPromotionsQuery = extendType({
             resolve: async () => {
                 try {
                     const response = await axios.get('http://localhost:8080/productPromotions');
-
                     const parsedData = ResponseSchema.parse(response.data);
                     return { productPromotion: parsedData.productPromotions.productPromotion };
                 } catch (error) {

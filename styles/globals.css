@@ -1,26 +1,89 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base {
+  html{
+    font-family: "Open Sans", sans-serif;
   }
-  body {
-    color: white;
-    background: black;
+}
+@layer utilities {
+  .fg-blue{
+    @apply text-sky-800;
+  }
+  .bg-blue {
+    @apply bg-sky-800;
+  }
+
+  .fg-info {
+    @apply text-sky-300;
+  }
+
+  .bg-info {
+    @apply bg-sky-300;
+  }
+
+  .fg-lightgray {
+    @apply text-slate-200;
+  }
+
+  .bg-lightgray {
+    @apply bg-slate-200;
+  }
+
+  .fg-muted {
+    @apply text-slate-400;
+  }
+
+  .bg-muted {
+    @apply bg-slate-400;
+  }
+
+  .fg-darkgray {
+    @apply text-slate-600;
+  }
+
+  .bg-darkgray {
+    @apply bg-slate-600;
+  }
+
+  .fg-black75 {
+    @apply text-slate-600;
+  }
+
+  .bg-black75 {
+    @apply bg-slate-600;
+  }
+
+  .fg-orange65 {
+    @apply text-orange-500;
+  }
+
+  .bg-orange65 {
+    @apply bg-orange-500;
+  }
+
+  .fg-darkgreen {
+    @apply text-green-700;
+  }
+
+  .bg-darkgreen {
+    @apply bg-green-700;
+  }
+
+  .fg-green {
+    @apply text-green-500;
+  }
+
+  .bg-green {
+    @apply bg-green-500;
+  }
+
+  .fg-success {
+    @apply text-emerald-500;
+  }
+
+  .bg-success {
+    @apply bg-emerald-500;
   }
 }

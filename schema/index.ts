@@ -1,4 +1,4 @@
-import { makeSchema } from 'nexus'
+import {makeSchema} from 'nexus'
 import * as QueryTypes from './Query'
 import * as BonusSlotsTypes from './BonusSlotsQuery'
 import * as AppSlotsTypes from './AppSlotsQuery'

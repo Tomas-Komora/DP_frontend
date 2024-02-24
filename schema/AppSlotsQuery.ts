@@ -1,6 +1,6 @@
 import { extendType, objectType } from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import  z  from 'zod';
 
 export const App = objectType({
     name: 'App',
@@ -45,7 +45,7 @@ export const AppSlot = objectType({
 });
 
 
-const EntireResponseSchema = z.object({
+export const EntireAppSlots = z.object({
     appSlots: z.array(
         z.object({
             appSlot: z.array(
@@ -85,7 +85,7 @@ export const AppSlotsQuery = extendType({
             resolve: async (_parent, _args, _context) => {
                 try {
                     const response = await axios.get('http://localhost:8080/appSlots');
-                    const parsedResponse = EntireResponseSchema.parse(response.data);
+                    const parsedResponse = EntireAppSlots.parse(response.data);
                     return parsedResponse.appSlots;
                 } catch (error) {
                     console.error("Error fetching or parsing app slots:", error);

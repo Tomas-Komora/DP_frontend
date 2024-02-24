@@ -1,6 +1,6 @@
 import {extendType, objectType, queryType} from "nexus";
 import axios from "axios";
-import {array, z} from "zod";
+import  z from "zod";
 
 export const bonusSlot = objectType({
     name: 'BonusSlot',
@@ -18,7 +18,7 @@ export const bonusSlot = objectType({
     }
 })
 
-const EntireResponseSchema = z.object({
+export const EntireResponseSchema = z.object({
     bonusSlots: z.object({
         bonusSlot: z.array(z.object({
             productId: z.string(),
@@ -44,7 +44,6 @@ export const BonusSlotsQuery = extendType({
                 try {
                     const response = await axios.get('http://localhost:8080/bonusSlots');
                     const parsedResponse = EntireResponseSchema.parse(response.data);
-                    //console.log(JSON.stringify(parsedResponse));
                     return parsedResponse.bonusSlots.bonusSlot;
                 } catch (error) {
                     if (error instanceof z.ZodError) {

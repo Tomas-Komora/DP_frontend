@@ -1,6 +1,6 @@
-import { enumType, extendType, objectType, list, nullable } from 'nexus';
+import { enumType, extendType, objectType } from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import  z  from 'zod';
 
 export const CommunicationChannelSchema = z.enum(["email", "sms", "voice", "web"]);
 
@@ -16,7 +16,7 @@ export const ApprovalSchema = z.object({
     approvalCheckboxName: z.string().optional(),
 });
 
-export const EntireResponseSchema = z.object({
+export const EntireApprovals = z.object({
     approvals: z.object({
         approval: z.array(ApprovalSchema),
     }),

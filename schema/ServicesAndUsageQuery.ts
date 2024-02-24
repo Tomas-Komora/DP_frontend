@@ -1,15 +1,14 @@
-import { extendType, objectType } from 'nexus';
+import {extendType, objectType} from 'nexus';
 import axios from 'axios';
-import { z } from 'zod';
+import z from 'zod';
 
 const priceLevelSchema = z.object({
     priceList: z.string(),
     priceWithVAT: z.number(),
     isEnabled: z.boolean(),
-    isActive: z.boolean().optional(), // Optional as it's not present in all objects
+    isActive: z.boolean().optional(),
 });
 
-// Adjusting for the flat structure of allowedModification, treating it as a string key rather than nested
 const serviceSchema = z.object({
     productId: z.string(),
     productName: z.string(),
@@ -18,7 +17,7 @@ const serviceSchema = z.object({
     activateOn: z.string().optional(),
     listPriority: z.number(),
     instanceId: z.number(),
-    "allowedModification.v2": z.string(), // Adjusted to match the response structure
+    "allowedModification.v2": z.string(),
     type: z.string().optional(),
     priceWithVAT: z.number().optional(),
     listPriceWithVAT: z.number().optional(),
@@ -30,12 +29,11 @@ const serviceSchema = z.object({
     priceLevels: z.array(priceLevelSchema).optional(),
 });
 
-// Updated to ensure optional fields are correctly handled
 const chargeUnitSchema = z.object({
     chargeUnit: z.string(),
     chargeQuantity: z.number().optional(),
-    chargeValue: z.number().optional(), // Made optional to match the structure where it might not be present
-    chargeValueWithVAT: z.number().optional(), // Made optional to accommodate the diverse structure of charge units
+    chargeValue: z.number().optional(),
+    chargeValueWithVAT: z.number().optional(),
 });
 
 const usageSummarySchema = z.object({
@@ -44,14 +42,14 @@ const usageSummarySchema = z.object({
     accummulatedCharges: z.array(chargeUnitSchema),
 });
 
-const servicesAndUsageSchema = z.object({
+export const servicesAndUsageSchema = z.object({
     service: z.array(serviceSchema),
     usageAt: z.string(),
     usageSummary: usageSummarySchema,
     lastRoamingZone: z.number(),
 });
 
-const responseSchema = z.object({
+export const servicesAndUsage = z.object({
     servicesAndUsage: servicesAndUsageSchema,
 });
 export const PriceLevel = objectType({
@@ -140,8 +138,7 @@ export const ServiceAndUsageQuery = extendType({
             resolve: async () => {
                 try {
                     const response = await axios.get('http://localhost:8080/serviceAndUsage');
-                    console.log(JSON.stringify(response.data));
-                    const parsedResponse = responseSchema.parse(response.data);
+                    const parsedResponse = servicesAndUsage.parse(response.data);
                     return parsedResponse.servicesAndUsage;
                 } catch (error) {
                     console.error("Error fetching or parsing service and usage data:", error);

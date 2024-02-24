@@ -19,10 +19,10 @@ export async function getServerSideProps() {
 }
 export default function Home({ frameworks }) {
   return (
-      <div>
+      <div className="bg-black">
         <ul>
           {frameworks.map(f => (
-              <li key={f.id}>{f.name}</li>
+              <li key={f.id} className="text-xs text-sky-900">{f.name}{f.id}</li>
           ))}
         </ul>
       </div>

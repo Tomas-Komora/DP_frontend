@@ -8,6 +8,7 @@ import {createKey} from "next/dist/shared/lib/router/router";
 export const Schema = z.object({
     subscriberComplex: z.object({
         bonusSlots: z.object({
+        bonusSlots: z.object({
             bonusSlot: z.array(z.object({
                 productId: z.string(),
                 productName: z.string(),
@@ -21,9 +22,8 @@ export const Schema = z.object({
                 instanceId: z.number(),
             })),
         }),
-        approvals: z.object({
-            approval: z.array(ApprovalSchema),
         }),
+        appSlots: z.object({
         appSlots: z.array(
             z.object({
                 appSlot: z.array(
@@ -52,64 +52,24 @@ export const Schema = z.object({
                     }),
                 ),
             }),
+
         ),
-        productPromotions: z.object({
-            productPromotion: z.array(ProductPromotionSchema),
         }),
-        servicesAndUsage: z.object({
-            service: z.array(z.object({
-                productId: z.string(),
-                productName: z.string(),
-                serviceGroup: z.string(),
-                status: z.string(),
-                activateOn: z.string().optional(),
-                listPriority: z.number(),
-                instanceId: z.number().optional(),
-                "allowedModification.v2": z.string().optional(),
-                type: z.string().optional(),
-                priceWithVAT: z.number().optional(),
-                listPriceWithVAT: z.number().optional(),
-                period: z.string().optional(),
-                protectionPeriodEndDate: z.string().optional(),
-                validTo: z.string().optional(),
-                isMultiInstance: z.boolean().optional(),
-                activationCode: z.string().optional(),
-                priceLevels: z.array(z.object({
-                    priceList: z.string(),
-                    priceWithVAT: z.number(),
-                    isEnabled: z.boolean(),
-                    isActive: z.boolean().optional(),
-                })).optional(),
-            })),
-            usageAt: z.string(),
-            usageSummary: z.object({
-                priceAfterAppliedFU: z.number(),
-                priceAfterAppliedFUWithVAT: z.number(),
-                accummulatedCharges: z.array(z.object({
-                    chargeUnit: z.string(),
-                    chargeQuantity: z.number().optional(),
-                    chargeValue: z.number().optional(),
-                    chargeValueWithVAT: z.number().optional(),
-                })),
-            }),
-            lastRoamingZone: z.number(),
-        }),
-        ssoAccount:  z.object({
-            otp: z.string().optional(),
-            otpValidTo: z.string().optional(),
-        }),
-        subscriber: SubscriberSchema,
+
+
+
     })
 });
 export async function getServerSideProps(context) {
     try {
-        const response = await axios.get('http://localhost:8080/subComplex');
+        const response = await axios.get('http://localhost:8080/api/v1/subComplex');
 
         const headersPlainObject = Object.entries(response.headers).reduce((acc, [key, value]) => {
             acc[key] = value;
             return acc;
         }, {});
         const finalData = Schema.parse(response.data)
+
         return {
             props: {
                 finalData,
@@ -127,21 +87,23 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(finalData) {
-    const appSlots = finalData.finalData.subscriberComplex.appSlots[0].appSlot
-    const bonusSlots = finalData.finalData.subscriberComplex.bonusSlots.bonusSlot
+    const appSlots = finalData.finalData.subscriberComplex.appSlots.appSlots
+    const bonusSlots = finalData.finalData.subscriberComplex.bonusSlots.bonusSlots.bonusSlot
     return (
+        <div>
+
         <div>
             <div>
                 <h1>App Slots</h1>
                 <ul>
                     {appSlots.map((appSlot) => (
-                        <li key={appSlot.productId}>
-                            <h2>{appSlot.productName}</h2>
-                            <p>{appSlot.type}</p>
-                            <p>{appSlot.allowedModification}</p>
-                            <p>{appSlot.assignedAppId}</p>
+                        <li key={appSlot.appSlot[0].productId}>
+                            <h2>{appSlot.appSlot[0].productName}</h2>
+                            <p>{appSlot.appSlot[0].type}</p>
+                            <p>{appSlot.appSlot[0].allowedModification}</p>
+                            <p>{appSlot.appSlot[0].assignedAppId}</p>
                             <ul>
-                                {appSlot.apps.app.map((app) => (
+                                {appSlot.appSlot[0].apps.app.map((app) => (
                                     <li key={app.productId}>
                                         <h3>{app.productName}</h3>
                                         <p>{app.category}</p>
@@ -177,6 +139,7 @@ export default function Home(finalData) {
                     ))}
                 </ul>
             </div>
+        </div>
         </div>
     );
 }

@@ -24,7 +24,7 @@ export const SsoAccountQuery = extendType({
             type: 'SsoAccount',
             resolve: async (_parent, _args, _context) => {
                 try {
-                    const response = await axios.get('http://localhost:8080/ssoAccount');
+                    const response = await axios.get('http://localhost:8080/api/v1/ssoAccount');
                     const parsedResponse = ssoAccountSchema.parse(response.data);
                     return parsedResponse.ssoAccount;
                 } catch (error) {

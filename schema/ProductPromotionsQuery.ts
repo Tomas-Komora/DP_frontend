@@ -91,7 +91,7 @@ export const ProductPromotionsQuery = extendType({
             type: 'ProductPromotions',
             resolve: async () => {
                 try {
-                    const response = await axios.get('http://localhost:8080/productPromotions');
+                    const response = await axios.get('http://localhost:8080/api/v1/productPromotions');
                     const parsedData = ResponseSchema.parse(response.data);
                     return { productPromotion: parsedData.productPromotions.productPromotion };
                 } catch (error) {

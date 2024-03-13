@@ -7,55 +7,13 @@ import {createKey} from "next/dist/shared/lib/router/router";
 
 export const Schema = z.object({
     subscriberComplex: z.object({
-        bonusSlots: z.object({
-            bonusSlot: z.array(z.object({
-                productId: z.string(),
-                productName: z.string(),
-                type: z.string(),
-                allowedModification: z.string().nullable(),
-                category: z.string(),
-                status: z.string(),
-                iconURL: z.string(),
-                description: z.string(),
-                activeTo: z.string(),
-                instanceId: z.number(),
-            })),
-        }),
-        approvals: z.object({
-            approval: z.array(ApprovalSchema),
-        }),
-        appSlots: z.array(
-            z.object({
-                appSlot: z.array(
-                    z.object({
-                        productId: z.string(),
-                        productName: z.string().nullable(),
-                        type: z.string(),
-                        allowedModification: z.string(),
-                        assignedAppId: z.string().nullable(),
-                        apps: z.object({
-                            app: z.array(
-                                z.object({
-                                    productId: z.string(),
-                                    productName: z.string().nullable(),
-                                    category: z.string(),
-                                    status: z.string(),
-                                    allowedModification: z.string(),
-                                    iconURL: z.string(),
-                                    description: z.string(),
-                                    activeTo: z.string().nullable(), // Adjusted to use .nullable() for strings
-                                    instanceId: z.number().nullable(), // Adjusted to use .number() for integers
-                                    productGroup: z.string(),
-                                }),
-                            ),
-                        }),
-                    }),
-                ),
-            }),
-        ),
         productPromotions: z.object({
-            productPromotion: z.array(ProductPromotionSchema),
+            productPromotions: z.object({
+                productPromotion: z.array(ProductPromotionSchema),
+            })
+
         }),
+        servicesAndUsages: z.object({
         servicesAndUsage: z.object({
             service: z.array(z.object({
                 productId: z.string(),
@@ -65,7 +23,6 @@ export const Schema = z.object({
                 activateOn: z.string().optional(),
                 listPriority: z.number(),
                 instanceId: z.number().optional(),
-                "allowedModification.v2": z.string().optional(),
                 type: z.string().optional(),
                 priceWithVAT: z.number().optional(),
                 listPriceWithVAT: z.number().optional(),
@@ -93,17 +50,12 @@ export const Schema = z.object({
                 })),
             }),
             lastRoamingZone: z.number(),
-        }),
-        ssoAccount:  z.object({
-            otp: z.string().optional(),
-            otpValidTo: z.string().optional(),
-        }),
-        subscriber: SubscriberSchema,
+        }) })
     })
 });
 export async function getServerSideProps(context) {
     try {
-        const response = await axios.get('http://localhost:8080/subComplex');
+        const response = await axios.get('http://localhost:8080/api/v1/subComplex');
 
         const headersPlainObject = Object.entries(response.headers).reduce((acc, [key, value]) => {
             acc[key] = value;
@@ -127,9 +79,10 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(finalData) {
-    const productPromotions = finalData.finalData.subscriberComplex.productPromotions.productPromotion
-    const services = finalData.finalData.subscriberComplex.servicesAndUsage.service
-    const servicesAndUsageQuery = finalData.finalData.subscriberComplex.servicesAndUsage
+    //console.log(finalData.finalData.subscriberComplex)
+    const productPromotions = finalData.finalData.subscriberComplex.productPromotions.productPromotions.productPromotion
+    const services = finalData.finalData.subscriberComplex.servicesAndUsages.servicesAndUsage.service
+    const servicesAndUsageQuery = finalData.finalData.subscriberComplex.servicesAndUsages.servicesAndUsage
     return (
         <div>
             <div>
@@ -157,9 +110,7 @@ export default function Home(finalData) {
                         </li>
                     ))}
                 </ul>
-
             </div>
-
             <div>
                 <h1>Services</h1>
                 <ul>

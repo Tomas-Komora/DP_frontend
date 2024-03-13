@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  dp-frontend:
+    image: dp-frontend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - my-java-app
+
+  my-java-app:
+    image: my-java-app:latest
+    ports:
+      - "8080:8080"
+

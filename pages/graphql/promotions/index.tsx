@@ -36,9 +36,6 @@ export async function getServerSideProps() {
                     activateOn
                     listPriority
                     instanceId
-                    allowedModification{
-                        v2
-                    }
                     type
                     priceWithVAT
                     listPriceWithVAT

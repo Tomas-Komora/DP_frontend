@@ -84,7 +84,7 @@ export const AppSlotsQuery = extendType({
             type: 'AppSlot',
             resolve: async (_parent, _args, _context) => {
                 try {
-                    const response = await axios.get('http://localhost:8080/appSlots');
+                    const response = await axios.get('http://localhost:8080/api/v1/appSlots');
                     const parsedResponse = EntireAppSlots.parse(response.data);
                     return parsedResponse.appSlots;
                 } catch (error) {

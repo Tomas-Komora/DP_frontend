@@ -5,7 +5,7 @@ import z from 'zod';
 const priceLevelSchema = z.object({
     priceList: z.string(),
     priceWithVAT: z.number(),
-    isEnabled: z.boolean(),
+    isEnabled: z.boolean().optional(),
     isActive: z.boolean().optional(),
 });
 
@@ -17,7 +17,6 @@ const serviceSchema = z.object({
     activateOn: z.string().optional(),
     listPriority: z.number(),
     instanceId: z.number(),
-    "allowedModification.v2": z.string(),
     type: z.string().optional(),
     priceWithVAT: z.number().optional(),
     listPriceWithVAT: z.number().optional(),
@@ -57,7 +56,7 @@ export const PriceLevel = objectType({
     definition(t) {
         t.string('priceList');
         t.float('priceWithVAT');
-        t.boolean('isEnabled');
+        t.nullable.boolean('isEnabled');
         t.nullable.boolean('isActive');
     },
 });
@@ -69,12 +68,9 @@ export const Service = objectType({
         t.string('productName');
         t.string('serviceGroup');
         t.string('status');
-        t.string('activateOn');
+        t.nullable.string('activateOn');
         t.int('listPriority');
         t.int('instanceId');
-        t.field('allowedModification', {
-            type: 'AllowedModification'
-        });
         t.nullable.string('type');
         t.nullable.float('priceWithVAT');
         t.nullable.float('listPriceWithVAT');
@@ -109,12 +105,7 @@ export const UsageSummary = objectType({
         });
     },
 });
-export const AllowedModification = objectType({
-    name: 'AllowedModification',
-    definition(t) {
-        t.string('v2');
-    },
-});
+
 
 export const ServicesAndUsage = objectType({
     name: 'ServicesAndUsage',
@@ -137,7 +128,7 @@ export const ServiceAndUsageQuery = extendType({
             type: 'ServicesAndUsage',
             resolve: async () => {
                 try {
-                    const response = await axios.get('http://localhost:8080/serviceAndUsage');
+                    const response = await axios.get('http://localhost:8080/api/v1/servicesAndUsages');
                     const parsedResponse = servicesAndUsage.parse(response.data);
                     return parsedResponse.servicesAndUsage;
                 } catch (error) {

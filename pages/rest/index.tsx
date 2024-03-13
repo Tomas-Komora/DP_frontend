@@ -6,103 +6,29 @@ import { SubscriberSchema} from "../../schema/SubscriberQuery";
 
 export const Schema = z.object({
         subscriberComplex: z.object({
-            bonusSlots: z.object({
-                bonusSlot: z.array(z.object({
-                    productId: z.string(),
-                    productName: z.string(),
-                    type: z.string(),
-                    allowedModification: z.string().nullable(),
-                    category: z.string(),
-                    status: z.string(),
-                    iconURL: z.string(),
-                    description: z.string(),
-                    activeTo: z.string(),
-                    instanceId: z.number(),
-                })),
-            }),
             approvals: z.object({
-                approval: z.array(ApprovalSchema),
-            }),
-            appSlots: z.array(
-                z.object({
-                    appSlot: z.array(
-                        z.object({
-                            productId: z.string(),
-                            productName: z.string().nullable(),
-                            type: z.string(),
-                            allowedModification: z.string(),
-                            assignedAppId: z.string().nullable(),
-                            apps: z.object({
-                                app: z.array(
-                                    z.object({
-                                        productId: z.string(),
-                                        productName: z.string().nullable(),
-                                        category: z.string(),
-                                        status: z.string(),
-                                        allowedModification: z.string(),
-                                        iconURL: z.string(),
-                                        description: z.string(),
-                                        activeTo: z.string().nullable(), // Adjusted to use .nullable() for strings
-                                        instanceId: z.number().nullable(), // Adjusted to use .number() for integers
-                                        productGroup: z.string(),
-                                    }),
-                                ),
-                            }),
-                        }),
-                    ),
-                }),
-            ),
-            productPromotions: z.object({
-                productPromotion: z.array(ProductPromotionSchema),
-            }),
-            servicesAndUsage: z.object({
-                service: z.array(z.object({
-                    productId: z.string(),
-                    productName: z.string(),
-                    serviceGroup: z.string(),
-                    status: z.string(),
-                    activateOn: z.string().optional(),
-                    listPriority: z.number(),
-                    instanceId: z.number().optional(),
-                    "allowedModification.v2": z.string().optional(),
-                    type: z.string().optional(),
-                    priceWithVAT: z.number().optional(),
-                    listPriceWithVAT: z.number().optional(),
-                    period: z.string().optional(),
-                    protectionPeriodEndDate: z.string().optional(),
-                    validTo: z.string().optional(),
-                    isMultiInstance: z.boolean().optional(),
-                    activationCode: z.string().optional(),
-                    priceLevels: z.array(z.object({
-                        priceList: z.string(),
-                        priceWithVAT: z.number(),
-                        isEnabled: z.boolean(),
-                        isActive: z.boolean().optional(),
-                    })).optional(),
-                })),
-                usageAt: z.string(),
-                usageSummary: z.object({
-                    priceAfterAppliedFU: z.number(),
-                    priceAfterAppliedFUWithVAT: z.number(),
-                    accummulatedCharges: z.array(z.object({
-                        chargeUnit: z.string(),
-                        chargeQuantity: z.number().optional(),
-                        chargeValue: z.number().optional(),
-                        chargeValueWithVAT: z.number().optional(),
+                approvals: z.object({
+                    approval: z.array(z.object({
+                        name: z.string(),
+                        approved: z.boolean(),
+                        validFrom: z.string().nullable(),
+                        isApprovalSettable: z.boolean().nullable(),
+                        approvalCheckboxName: z.string().nullable(),
+                        communicationChannels: z.object({
+                            communicationChannel: z.array(z.string()).nullable(),
+                        }).nullable(),
                     })),
                 }),
-                lastRoamingZone: z.number(),
             }),
-            ssoAccount:  z.object({
-                otp: z.string().optional(),
-                otpValidTo: z.string().optional(),
+
+            subscriber: z.object({
+                subscriber: SubscriberSchema
             }),
-            subscriber: SubscriberSchema,
         })
 });
 export async function getServerSideProps(context) {
     try {
-        const response = await axios.get('http://localhost:8080/subComplex');
+        const response = await axios.get('http://localhost:8080/api/v1/subComplex');
 
         const headersPlainObject = Object.entries(response.headers).reduce((acc, [key, value]) => {
             acc[key] = value;
@@ -126,8 +52,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(finalData) {
-    const subscriber = finalData.finalData.subscriberComplex.subscriber
-    const approvals = finalData.finalData.subscriberComplex.approvals.approval
+    const subscriber = finalData.finalData.subscriberComplex.subscriber.subscriber
+    // console.log(finalData.finalData.subscriberComplex)
+    const approvals = finalData.finalData.subscriberComplex.approvals.approvals.approval
     return (
         <div>
             <div>
@@ -166,6 +93,7 @@ export default function Home(finalData) {
                 <p>has More Billing Arrangements: {subscriber.hasMoreBillingArrangements}</p>
 
             </div>
+
 
             <h1>Approvals</h1>
             {approvals.map((approval, index) => (

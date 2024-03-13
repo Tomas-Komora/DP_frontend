@@ -42,7 +42,7 @@ export const BonusSlotsQuery = extendType({
             type: 'BonusSlot',
             resolve: async () => {
                 try {
-                    const response = await axios.get('http://localhost:8080/bonusSlots');
+                    const response = await axios.get('http://localhost:8080/api/v1/bonusSlots');
                     const parsedResponse = EntireResponseSchema.parse(response.data);
                     return parsedResponse.bonusSlots.bonusSlot;
                 } catch (error) {

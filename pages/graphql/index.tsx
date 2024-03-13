@@ -23,20 +23,20 @@ export async function getServerSideProps() {
                     status
                     statusDate
                     statusReason
-                    BACuRefNo
-                    BAName
-                    BPFirstName
-                    BPCuRefNo
-                    isBusinessSegment
+                    bacuRefNo
+                    baname
+                    bpfirstName
+                    bpcuRefNo
+                    businessSegment
                     selfServiceManagement
                     endOfBC
                     startOfBC
                     daysTillEndOfBC
                     billCycleId
-                    isChangedTariffInCurrentBc
+                    changedTariffInCurrentBc
                     billMediaType
-                    email{eInvoiceEmail
-                        BPEmail
+                    email{
+                        bpemail
                         zekVerificationStatus}
                     settings{hasDigitalBox
                         hasInvoicePaymentCharge
@@ -75,14 +75,14 @@ export default function Home({ approvalsQuery, subscriberQuery }) {
     const subscriber = subscriberQuery.subscriber
     const approvals = approvalsQuery.approval
     return (
-        <div>
+        <div className="bg-blue">
         <div>
             <h1>Subscriber Information</h1>
-            <p>Subscriber Name: {subscriber.BPFirstName}</p>
+            <p>Subscriber Name: {subscriber.bpfirstName}</p>
             <p>Subscriber ID: {subscriber.subscriberId}</p>
             <p>MSISDN: {subscriber.msisdn}</p>
             <p>Subscriber Type: {subscriber.subscriberType}</p>
-            <p>Email: {subscriber.email.BPEmail}</p>
+            <p>Email: {subscriber.email.bpemail}</p>
             <p>Activation Date: {subscriber.activationDate}</p>
             <h2>Tariffs</h2>
             <ul>
@@ -98,15 +98,15 @@ export default function Home({ approvalsQuery, subscriberQuery }) {
             <p>Status: {subscriber.status}</p>
             <p>Status Date: {subscriber.statusDate}</p>
             <p>Status Reason: {subscriber.statusReason}</p>
-            <p>BACuRefNo: {subscriber.BACuRefNo}</p>
-            <p>Address: {subscriber.BAName}</p>
-            <p>is Business Segment: {subscriber.isBusinessSegment}</p>
+            <p>BACuRefNo: {subscriber.bacuRefNo}</p>
+            <p>Address: {subscriber.baname}</p>
+            <p>is Business Segment: {subscriber.businessSegment}</p>
             <p>self Service Management: {subscriber.selfServiceManagement}</p>
             <p>end Of BC: {subscriber.endOfBC}</p>
             <p>start Of BC: {subscriber.startOfBC}</p>
             <p>days Till End Of BC: {subscriber.daysTillEndOfBC}</p>
             <p>bill Cycle Id: {subscriber.billCycleId}</p>
-            <p>is Changed Tariff In Current Bc: {subscriber.isChangedTariffInCurrentBc}</p>
+            <p>is Changed Tariff In Current Bc: {subscriber.changedTariffInCurrentBc}</p>
             <p>bill Media Type: {subscriber.billMediaType}</p>
             <p>has More Subscribers: {subscriber.hasMoreSubscribers}</p>
             <p>has More Billing Arrangements: {subscriber.hasMoreBillingArrangements}</p>

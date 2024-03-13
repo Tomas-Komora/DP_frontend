@@ -3,8 +3,8 @@ import axios from 'axios';
 import  z from 'zod';
 
 const EmailSchema = z.object({
-    eInvoiceEmail: z.string(),
-    BPEmail: z.string(),
+    einvoiceEmail: z.string(),
+    bpemail: z.string(),
     zekVerificationStatus: z.enum(["VERIFIED_INTERNALLY"]),
 });
 
@@ -36,17 +36,17 @@ export const SubscriberSchema = z.object({
     status: z.string(),
     statusDate: z.string(),
     statusReason: z.string(),
-    BACuRefNo: z.number(),
-    BAName: z.string(),
-    BPFirstName: z.string(),
-    BPCuRefNo: z.number(),
-    isBusinessSegment: z.boolean(),
+    bacuRefNo: z.number(),
+    baname: z.string(),
+    bpfirstName: z.string(),
+    bpcuRefNo: z.number(),
+    businessSegment: z.boolean(),
     selfServiceManagement: z.boolean(),
     startOfBC: z.string(),
     endOfBC: z.string(),
     daysTillEndOfBC: z.number(),
     billCycleId: z.string(),
-    isChangedTariffInCurrentBc: z.boolean(),
+    changedTariffInCurrentBc: z.boolean(),
     billMediaType: z.enum(["EBill"]),
     email: EmailSchema,
     settings: SettingsSchema,
@@ -61,8 +61,8 @@ export const EntireResponseSchemaSubscriber = z.object({
 export const Email = objectType({
     name: 'Email',
     definition(t) {
-        t.string('eInvoiceEmail');
-        t.string('BPEmail');
+        t.string('einvoiceEmail');
+        t.string('bpemail');
         t.string('zekVerificationStatus');
     },
 });
@@ -103,17 +103,17 @@ export const Subscriber = objectType({
         t.string('status');
         t.string('statusDate');
         t.string('statusReason');
-        t.int('BACuRefNo');
-        t.string('BAName');
-        t.string('BPFirstName');
-        t.int('BPCuRefNo');
-        t.boolean('isBusinessSegment');
+        t.int('bacuRefNo');
+        t.string('baname');
+        t.string('bpfirstName');
+        t.int('bpcuRefNo');
+        t.boolean('businessSegment');
         t.boolean('selfServiceManagement');
         t.string('startOfBC');
         t.string('endOfBC');
         t.int('daysTillEndOfBC');
         t.string('billCycleId');
-        t.boolean('isChangedTariffInCurrentBc');
+        t.boolean('changedTariffInCurrentBc');
         t.string('billMediaType');
         t.field('email', { type: 'Email' });
         t.field('settings', { type: 'Settings' });
@@ -136,7 +136,7 @@ export const SubscriberQuery = extendType({
             type: 'EntireResponse',
             resolve: async (_parent, _args, _context) => {
                 try {
-                    const response = await axios.get('http://localhost:8080/subscriber');
+                    const response = await axios.get('http://localhost:8080/api/v1/subscriber');
                     const parsedResponse = EntireResponseSchemaSubscriber.parse(response.data);
                     // Adjusted to match the expected shape.
                     return { subscriber: parsedResponse.subscriber };

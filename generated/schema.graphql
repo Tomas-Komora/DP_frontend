@@ -2,10 +2,6 @@
 ### Do not make changes to this file directly
 
 
-type AllowedModification {
-  v2: String
-}
-
 type App {
   activeTo: String
   allowedModification: String
@@ -82,8 +78,8 @@ type CommunicationChannels {
 }
 
 type Email {
-  BPEmail: String
-  eInvoiceEmail: String
+  bpemail: String
+  einvoiceEmail: String
   zekVerificationStatus: String
 }
 
@@ -146,7 +142,6 @@ type Query {
 type Service {
   activateOn: String
   activationCode: String
-  allowedModification: AllowedModification
   instanceId: Int
   isMultiInstance: Boolean
   listPriceWithVAT: Float
@@ -185,20 +180,20 @@ type SsoAccount {
 type Subscriber {
   activationDate: String
   assetLastUpdatedAt: String
-  BACuRefNo: Int
-  BAName: String
+  bacuRefNo: Int
+  baname: String
   billCycleId: String
   billMediaType: String
-  BPCuRefNo: Int
-  BPFirstName: String
+  bpcuRefNo: Int
+  bpfirstName: String
+  businessSegment: Boolean
+  changedTariffInCurrentBc: Boolean
   daysTillEndOfBC: Int
   eligibleForApp: Boolean
   email: Email
   endOfBC: String
   hasMoreBillingArrangements: String
   hasMoreSubscribers: String
-  isBusinessSegment: Boolean
-  isChangedTariffInCurrentBc: Boolean
   msisdn: Int
   scratchDay: String
   selfServiceManagement: Boolean

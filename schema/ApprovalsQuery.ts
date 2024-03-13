@@ -62,7 +62,7 @@ export const ApprovalsQuery = extendType({
             type: 'Approvals',
             resolve: async () => {
                 try {
-                    const response = await axios.get('http://localhost:8080/approvals');
+                    const response = await axios.get('http://localhost:8080/api/v1/approvals');
                     // Adjust the path to match the structure of your data
                     const approvals = response.data.approvals.approval.map(approval => {
                         // Assuming communicationChannels can be directly used or set as an empty object if undefined

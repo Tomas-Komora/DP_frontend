@@ -29,9 +29,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  AllowedModification: { // root type
-    v2?: string | null; // String
-  }
   App: { // root type
     activeTo?: string | null; // String
     allowedModification?: string | null; // String
@@ -92,8 +89,8 @@ export interface NexusGenObjects {
     communicationChannel: Array<NexusGenEnums['CommunicationChannel'] | null>; // [CommunicationChannel]!
   }
   Email: { // root type
-    BPEmail?: string | null; // String
-    eInvoiceEmail?: string | null; // String
+    bpemail?: string | null; // String
+    einvoiceEmail?: string | null; // String
     zekVerificationStatus?: string | null; // String
   }
   EntireResponse: { // root type
@@ -139,7 +136,6 @@ export interface NexusGenObjects {
   Service: { // root type
     activateOn?: string | null; // String
     activationCode?: string | null; // String
-    allowedModification?: NexusGenRootTypes['AllowedModification'] | null; // AllowedModification
     instanceId?: number | null; // Int
     isMultiInstance?: boolean | null; // Boolean
     listPriceWithVAT?: number | null; // Float
@@ -174,20 +170,20 @@ export interface NexusGenObjects {
   Subscriber: { // root type
     activationDate?: string | null; // String
     assetLastUpdatedAt?: string | null; // String
-    BACuRefNo?: number | null; // Int
-    BAName?: string | null; // String
+    bacuRefNo?: number | null; // Int
+    baname?: string | null; // String
     billCycleId?: string | null; // String
     billMediaType?: string | null; // String
-    BPCuRefNo?: number | null; // Int
-    BPFirstName?: string | null; // String
+    bpcuRefNo?: number | null; // Int
+    bpfirstName?: string | null; // String
+    businessSegment?: boolean | null; // Boolean
+    changedTariffInCurrentBc?: boolean | null; // Boolean
     daysTillEndOfBC?: number | null; // Int
     eligibleForApp?: boolean | null; // Boolean
     email?: NexusGenRootTypes['Email'] | null; // Email
     endOfBC?: string | null; // String
     hasMoreBillingArrangements?: string | null; // String
     hasMoreSubscribers?: string | null; // String
-    isBusinessSegment?: boolean | null; // Boolean
-    isChangedTariffInCurrentBc?: boolean | null; // Boolean
     msisdn?: number | null; // Int
     scratchDay?: string | null; // String
     selfServiceManagement?: boolean | null; // Boolean
@@ -226,9 +222,6 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  AllowedModification: { // field return type
-    v2: string | null; // String
-  }
   App: { // field return type
     activeTo: string | null; // String
     allowedModification: string | null; // String
@@ -289,8 +282,8 @@ export interface NexusGenFieldTypes {
     communicationChannel: Array<NexusGenEnums['CommunicationChannel'] | null>; // [CommunicationChannel]!
   }
   Email: { // field return type
-    BPEmail: string | null; // String
-    eInvoiceEmail: string | null; // String
+    bpemail: string | null; // String
+    einvoiceEmail: string | null; // String
     zekVerificationStatus: string | null; // String
   }
   EntireResponse: { // field return type
@@ -345,7 +338,6 @@ export interface NexusGenFieldTypes {
   Service: { // field return type
     activateOn: string | null; // String
     activationCode: string | null; // String
-    allowedModification: NexusGenRootTypes['AllowedModification'] | null; // AllowedModification
     instanceId: number | null; // Int
     isMultiInstance: boolean | null; // Boolean
     listPriceWithVAT: number | null; // Float
@@ -380,20 +372,20 @@ export interface NexusGenFieldTypes {
   Subscriber: { // field return type
     activationDate: string | null; // String
     assetLastUpdatedAt: string | null; // String
-    BACuRefNo: number | null; // Int
-    BAName: string | null; // String
+    bacuRefNo: number | null; // Int
+    baname: string | null; // String
     billCycleId: string | null; // String
     billMediaType: string | null; // String
-    BPCuRefNo: number | null; // Int
-    BPFirstName: string | null; // String
+    bpcuRefNo: number | null; // Int
+    bpfirstName: string | null; // String
+    businessSegment: boolean | null; // Boolean
+    changedTariffInCurrentBc: boolean | null; // Boolean
     daysTillEndOfBC: number | null; // Int
     eligibleForApp: boolean | null; // Boolean
     email: NexusGenRootTypes['Email'] | null; // Email
     endOfBC: string | null; // String
     hasMoreBillingArrangements: string | null; // String
     hasMoreSubscribers: string | null; // String
-    isBusinessSegment: boolean | null; // Boolean
-    isChangedTariffInCurrentBc: boolean | null; // Boolean
     msisdn: number | null; // Int
     scratchDay: string | null; // String
     selfServiceManagement: boolean | null; // Boolean
@@ -422,9 +414,6 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  AllowedModification: { // field return type name
-    v2: 'String'
-  }
   App: { // field return type name
     activeTo: 'String'
     allowedModification: 'String'
@@ -485,8 +474,8 @@ export interface NexusGenFieldTypeNames {
     communicationChannel: 'CommunicationChannel'
   }
   Email: { // field return type name
-    BPEmail: 'String'
-    eInvoiceEmail: 'String'
+    bpemail: 'String'
+    einvoiceEmail: 'String'
     zekVerificationStatus: 'String'
   }
   EntireResponse: { // field return type name
@@ -541,7 +530,6 @@ export interface NexusGenFieldTypeNames {
   Service: { // field return type name
     activateOn: 'String'
     activationCode: 'String'
-    allowedModification: 'AllowedModification'
     instanceId: 'Int'
     isMultiInstance: 'Boolean'
     listPriceWithVAT: 'Float'
@@ -576,20 +564,20 @@ export interface NexusGenFieldTypeNames {
   Subscriber: { // field return type name
     activationDate: 'String'
     assetLastUpdatedAt: 'String'
-    BACuRefNo: 'Int'
-    BAName: 'String'
+    bacuRefNo: 'Int'
+    baname: 'String'
     billCycleId: 'String'
     billMediaType: 'String'
-    BPCuRefNo: 'Int'
-    BPFirstName: 'String'
+    bpcuRefNo: 'Int'
+    bpfirstName: 'String'
+    businessSegment: 'Boolean'
+    changedTariffInCurrentBc: 'Boolean'
     daysTillEndOfBC: 'Int'
     eligibleForApp: 'Boolean'
     email: 'Email'
     endOfBC: 'String'
     hasMoreBillingArrangements: 'String'
     hasMoreSubscribers: 'String'
-    isBusinessSegment: 'Boolean'
-    isChangedTariffInCurrentBc: 'Boolean'
     msisdn: 'Int'
     scratchDay: 'String'
     selfServiceManagement: 'Boolean'

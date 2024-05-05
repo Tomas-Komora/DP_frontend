@@ -1,47 +1,54 @@
 import { request, gql } from 'graphql-request'
+import NodeCache from "node-cache";
+
+const myCache = new NodeCache({ stdTTL: 1, checkperiod: 1 });
 
 export async function getServerSideProps() {
-    const query = gql`
-        {
-            appSlotsQuery{
-                appSlot{
+
+    let data = myCache.get("slots");
+    if(!data){
+        const query = gql`
+            {
+                appSlotsQuery{
+                    appSlot{
+                        productId
+                        productName
+                        type
+                        allowedModification
+                        assignedAppId
+                        apps{
+                            app{
+                                productId
+                                productName
+                                category
+                                status
+                                allowedModification
+                                iconURL
+                                activeTo
+                                description
+                                instanceId
+                                productGroup
+                            }
+                        }
+                    }
+                },
+                bonusSlots{
                     productId
                     productName
                     type
                     allowedModification
-                    assignedAppId
-                    apps{
-                        app{
-                            productId
-                            productName
-                            category
-                            status
-                            allowedModification
-                            iconURL
-                            activeTo
-                            description
-                            instanceId
-                            productGroup
-                        }
-                    }
+                    category
+                    status
+                    iconURL
+                    description
+                    activeTo
+                    instanceId
                 }
-            },
-            bonusSlots{
-                productId
-                productName
-                type
-                allowedModification
-                category
-                status
-                iconURL
-                description
-                activeTo
-                instanceId
             }
-        }
-    `
-
-    const data = await request('http://localhost:3000/api/graphql', query)
+        `
+        data = await request('http://localhost:3000/api/graphql', query)
+        myCache.set("slots", data);
+    }
     const { appSlotsQuery, bonusSlots } = data as any
     return {
         props: {
